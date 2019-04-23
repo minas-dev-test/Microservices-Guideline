@@ -1,45 +1,59 @@
----
-title: This is my title
----
-
 ## Guideline de Microsserviços
 
 Este documento deve ser usado como refência na criação de novos microsserviços.
 
+### Introdução
+
+Os microserviços desenvolvidos devem ter foco na tarefa delegada, não resolvendo outros problemas como autenticação, permisses, etc. Também deve ser mantido um código limpo, bem documentado e de fácil manutenção, pois pode ocorrer de o responsável por certa modificação não dominar a linguagem ou a tecnologia.
+
 ### Configuração
 
-Os microsserviços devem ser configuráveis exclusivamente via variáveis de ambiente. Configurações como Banco de dados etc
+Os microsserviços devem ser configuráveis exclusivamente via variáveis de ambiente. Configurações como Banco de dados, chave privada, etc no formato `ENV_VAR_NAME`.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Frameworks costumam suportar nativamente este meio de configuração, pesquise sobre a que for usar.
 
-### Markdown
+### Nomenclaturas
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Usar sempre nomenclaturas em inglês seguindo os padres definidos. Ser objetivo e evitar redundância (ex: rota `/user` retornar `{"userName": "max", "userEmail"...}` ao invés de apenas `name e email`.
 
-```markdown
-Syntax highlighted code block
+### API RESTful
 
-# Header 1
-## Header 2
-### Header 3
+ - Seguir padrões e boas práticas HTTP/RESTful.
+ - Sempre que necessário, aplicar CRUD completo (`GET, POST, PUT, DELETE`). 
+    - GET users/POST new user: `/user`
+    - PUT/DELETE an user: `/user/:id`
+ - Simplificar rotas. Se um recurso pode ser ativado via parâmetros, fazer uma rota apenas (obter todos os users ou algos via filtragem com parâmetros `GET`
+ - Suportar CORS e pre-flight (`OPTIONS`)
+ - Usar status HTTP em respostas adequadamente (`200, 401, 404`, etc)
+ - Manter o MS stateless (não usar sessão, qualquer dado externo deve ser recebido em ENV ou na requisição)
+ - manter nomenclatura de rotas com `slash-case` (`/sua-rota/da-api`).
+ - Retorno: usar `camelCase` (ex: `{ addressCode, fatherName }`)
 
-- Bulleted
-- List
+#### Validação / Erros
 
-1. Numbered
-2. List
+As rotas devem fazer as validaçes necessárias para seu funcionamento e os erros devem ser padronizados, usando codigos HTTP adequados:
 
-**Bold** and _Italic_ and `Code` text
+**Erro de validação:**
 
-[Link](url) and ![Image](src)
+```json
+{
+  "invalidField": "Mensagem de erro para campo invalidField.",
+  "email": "Email inválido."
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+**Erro geral / Crítico (ainda pensando):** usar chave `error`
 
-### Jekyll Themes
+```json
+{
+  "error": ["Erro crtico A", "Erro crtico B"]
+}
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/minas-dev-test/microservices-guideline/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Futuro
 
-### Support or Contact
+Pode ser necessário manter controle nos MS que apresentam CRUDs, registro do usuário logado para saber quem criou ou editou algum conteúdo. É necessário pensar em uma boa abordagem para isto.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+No futuro, todos os MS deverão ter uma rota padrão de configuração (`/setup`). Esta rota irá informar um mapeamento de todas as rotas disponíveis no MS, informando suas configuraçes, parâmetros e permissões necessárias (`READ:POST, WRITE:EVENT`).
+
+Os MS devem também aceitar um parâmetro ENV (`ACCESS_SECRET`) o qual é uma chave secreta. Os MS devem bloquear qualquer acesso caso a requisição não apresente por cabeçalho a chave correta.
