@@ -3,9 +3,13 @@ title: This is my title
 layout: post
 ---
 
-## Welcome to GitHub Pages
+## Guideline de Microsserviços
 
-You can use the [editor on GitHub](https://github.com/minas-dev-test/microservices-guideline/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Este documento deve ser usado como refência na criação de novos microsserviços.
+
+### Configuração
+
+Os microsserviços devem ser configuráveis exclusivamente via variáveis de ambiente. Configurações como Banco de dados etc
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
