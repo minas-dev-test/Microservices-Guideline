@@ -2,6 +2,8 @@
 
 Este documento deve ser usado como refência na criação de novos microsserviços.
 
+**SIGA ESTE REPOSITÓRIO PARA MANTER-SE ATUALIZADO!!!**
+
 ### Introdução
 
 Os microserviços desenvolvidos devem ter foco na tarefa delegada, não resolvendo outros problemas como autenticação, permisses, etc. Também deve ser mantido um código limpo, bem documentado e de fácil manutenção, pois pode ocorrer de o responsável por certa modificação não dominar a linguagem ou a tecnologia.
