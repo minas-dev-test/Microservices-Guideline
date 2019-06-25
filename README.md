@@ -12,6 +12,10 @@ Os microsserviços devem ser configuráveis exclusivamente via variáveis de amb
 
 Frameworks costumam suportar nativamente este meio de configuração, pesquise sobre a que for usar.
 
+### Banco de Dados
+
+Quando o microsserviço necessitar acesso a um banco de dados, deve auto-configurá-lo, criando suas coleções ou tabelas automaticamente, sem necessidade de iteração manual como imports etc. Usar a abordagem de ORM e migrations é recomendado. Ao usar uma framework, esta costuma dar suporte ao mesmo.
+
 ### Nomenclaturas
 
 Usar sempre nomenclaturas em inglês seguindo os padres definidos. Ser objetivo e evitar redundância (ex: rota `/user` retornar `{"userName": "max", "userEmail"...}` ao invés de apenas `name e email`.
